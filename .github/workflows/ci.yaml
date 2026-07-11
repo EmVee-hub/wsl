@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  dispatch:
+    workflow: ci
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build Docker image
+        run: docker build -t trixie:latest .
+        working-directory: ./src
+
+      - name: Scan image with Grype
+        uses: anchore/scan-action@v6
+        with:
+          image: 'trixie:latest'
+          fail-build: true
+          severity-cutoff: high
+          output-format: sarif
+
+
