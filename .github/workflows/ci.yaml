@@ -24,7 +24,7 @@ jobs:
           image: 'trixie:latest'
           fail-build: true
           severity-cutoff: high
-          output-format: sarif
+          output-format: table
           only-fixed: true
           cache-db: true
 
